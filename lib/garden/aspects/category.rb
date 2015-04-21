@@ -3,6 +3,7 @@ module Garden
     class Category
       def initialize(value)
 	@value = value
+	@initial_value = value
       end
 
       def self.groups(kvs)
@@ -25,7 +26,6 @@ module Garden
         self.class.category_for @value
       end
 
-      protected
       def increment
 	@value = @value + 1
 	self
@@ -33,6 +33,11 @@ module Garden
       
       def decrement
 	@value = @value - 1
+	self
+      end
+
+      def reset
+	@value = @initial_value
 	self
       end
     end
