@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'garden'
+
 describe Flower do
   it 'should have a location' do
     expect(subject.location).to eql([0,0])
@@ -14,7 +15,7 @@ describe Flower do
   end
 
   it 'should have an age' do
-    expect(subject.age_category).to eql(:zygote)
+    expect(subject.age_category).to eql(:seed)
   end
 
   it 'should have a size' do
@@ -57,19 +58,19 @@ describe Flower do
     end
 
     it 'should have a new age category' do
-      expect(subject.age_category).to eql(:embryo)
+      expect(subject.age_category).to eql(:child)
     end
 
     it 'should have a new size category' do
-      expect(subject.size_category).to eql(:medium)
+      expect(subject.size_category).to eql(:large)
     end
 
     it 'should have a new moisture category' do
-      expect(subject.moisture_category).to eql(:dry)
+      expect(subject.moisture_category).to eql(:very_dry)
     end
 
     it 'should have a new ripeness category' do
-      expect(subject.ripeness_category).to eql(:ripe)
+      expect(subject.ripeness_category).to eql(:rotten)
     end
   end
 end

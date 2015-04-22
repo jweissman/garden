@@ -41,8 +41,10 @@ module Garden
 
     class Age < Category
       groups \
-	0..10 => :zygote,
-        10..Infinity => :embryo
+	0..100 => :seed,
+        100..200 => :child,
+	200..400 => :adult,
+	400..Infinity => :dead
     end
 
     module Aging
@@ -57,7 +59,9 @@ module Garden
 
     class Moisture < Category
       groups \
-	0..90   => :dry,
+	(-Infinity)..0 => :very_dry,
+	0..50   => :dry,
+	50..90 => :hydrated,
         90..100 => :well_hydrated
     end
 

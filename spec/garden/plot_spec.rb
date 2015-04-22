@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'garden'
+require 'pry'
 include Garden
 
 describe Plot do
@@ -9,15 +10,34 @@ describe Plot do
     expect(subject.flowers.first).to be_a(Flower)
   end
 
+  describe '#initialize' do
+    let(:subject) { Plot.new(xys) }
+    let(:xys) { [[0,0],[1,0],[2,1]] }
+    before { subject.recompute_layout }
+
+    it 'should place flowers on init' do
+      expect(subject.layout.keys).to eql(xys)
+    end
+  end
+
   it 'should allow planting flowers' do
-    pos = [1, 1]
+    pos = [4, 5]
     expect(subject.flowers).to receive(:<<).with(instance_of(Flower))
     subject.plant!(pos)
   end
 
-  it 'should develop flowers' do
-    expect(subject.flowers.first).to receive(:develop!)
-    subject.develop!
+  describe '#develop!' do
+    it 'should develop flowers' do
+      expect(subject.flowers.first).to receive(:develop!)
+      subject.develop!
+    end
+
+    let(:pop) { subject.flowers.count }
+    it 'should cull dead flowers' do
+      subject.develop! until subject.flowers.first.age_category == :dead
+      expect { subject.develop! }.to change { subject.flowers.count }.from(pop).to(0)
+      expect(subject.layout).to eql({})
+    end
   end
 
   describe 'interactions' do
@@ -45,14 +65,14 @@ describe Plot do
 
   describe '#layout' do
     before { subject.recompute_layout }
-    let(:flower) { subject.layout[[0,0]] }
+    let(:flower) { subject.layout[[1,1]] }
     
     it 'should report size of flowers' do
       expect(flower[:size]).to eql(:small)
     end
 
     it 'should report age of flowers' do
-      expect(flower[:age]).to eql(:zygote)
+      expect(flower[:age]).to eql(:seed)
     end
 
     it' should report moisture of flowers' do
